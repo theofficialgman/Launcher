@@ -12,13 +12,13 @@ class JavaChecker;
 struct JavaCheckResult
 {
     QString path;
-    QString mojangPlatform;
+    // QString mojangPlatform;
     QString realPlatform;
     JavaVersion javaVersion;
     QString javaVendor;
     QString outLog;
     QString errorLog;
-    bool is_64bit = false;
+    // bool is_64bit = false;
     int id;
     enum class Validity
     {

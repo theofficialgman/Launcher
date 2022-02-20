@@ -104,9 +104,9 @@ void CheckJava::checkJavaFinished(JavaCheckResult result)
         case JavaCheckResult::Validity::Valid:
         {
             auto instance = m_parent->instance();
-            printJavaInfo(result.javaVersion.toString(), result.mojangPlatform, result.javaVendor);
+            printJavaInfo(result.javaVersion.toString(), result.realPlatform, result.javaVendor);
             instance->settings()->set("JavaVersion", result.javaVersion.toString());
-            instance->settings()->set("JavaArchitecture", result.mojangPlatform);
+            instance->settings()->set("JavaArchitecture", result.realPlatform);
             instance->settings()->set("JavaVendor", result.javaVendor);
             instance->settings()->set("JavaTimestamp", m_javaUnixTime);
             emitSucceeded();
@@ -118,22 +118,28 @@ void CheckJava::checkJavaFinished(JavaCheckResult result)
 void CheckJava::printJavaInfo(const QString& version, const QString& architecture, const QString & vendor)
 {
     emit logLine(QString("Java is version %1, using %2-bit architecture, from %3.\n\n").arg(version, architecture, vendor), MessageLevel::Launcher);
-    printSystemInfo(true, architecture == "64");
 }
 
 void CheckJava::printSystemInfo(bool javaIsKnown, bool javaIs64bit)
 {
-    auto cpu64 = Sys::isCPU64bit();
-    auto system64 = Sys::isSystem64bit();
-    if(cpu64 != system64)
-    {
-        emit logLine(QString("Your CPU architecture is not matching your system architecture. You might want to install a 64bit Operating System.\n\n"), MessageLevel::Error);
-    }
-    if(javaIsKnown)
-    {
-        if(javaIs64bit != system64)
-        {
-            emit logLine(QString("Your Java architecture is not matching your system architecture. You might want to install a 64bit Java version.\n\n"), MessageLevel::Error);
-        }
-    }
+    // auto cpu64 = Sys::isCPU64bit();
+    // auto system64 = Sys::isSystem64bit();
+
+    // FIXME: add a better check by comparing cpu arhitecture and system architecure (needs to be from userspace not kernel architecture since x86 and arm32 userspace can run on x86_64 and arm64 kernel)
+
+    // if(cpu64 != system64)
+    // {
+    //     emit logLine(QString("Your CPU architecture is not matching your system architecture. You might want to install a 64bit Operating System.\n\n"), MessageLevel::Error);
+    // }
+
+    // FIXME: add a better check by comparing os_arch (the reported java build achitecture) and system arhitecture (needs to be from userspace not kernel architecture since x86 and arm32 userspace can run on x86_64 and arm64 kernel)
+
+    // if(javaIsKnown)
+    // {
+    //     if(javaIs64bit != system64)
+    //     {
+    //         emit logLine(QString("Your Java architecture is not matching your system architecture. You might want to install a 64bit Java version.\n\n"), MessageLevel::Error);
+    //     }
+    // }
+    emit logLine(QString("Java 64/32bit checks are deprecated, FIXME\n\n"), MessageLevel::Error);
 }

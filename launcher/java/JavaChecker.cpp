@@ -126,15 +126,26 @@ void JavaChecker::finished(int exitcode, QProcess::ExitStatus status)
         return;
     }
 
+    // os.arch could contain: x86, i386, i686, amd64, x86_64, arm, aarch64
     auto os_arch = results["os.arch"];
+    // simplify os_arch results
+    if(os_arch == "i386" || os_arch == "i686")
+    {
+        os_arch = "x86";
+    }
+    if(os_arch == "amd64")
+    {
+        os_arch = "x86_64";
+    }
     auto java_version = results["java.version"];
     auto java_vendor = results["java.vendor"];
-    bool is_64 = os_arch == "x86_64" || os_arch == "amd64";
+
+    // bool is_64 = os_arch == "x86_64" || os_arch == "amd64";
 
 
     result.validity = JavaCheckResult::Validity::Valid;
-    result.is_64bit = is_64;
-    result.mojangPlatform = is_64 ? "64" : "32";
+    // result.is_64bit = is_64;
+    // result.mojangPlatform = is_64 ? "64" : "32";
     result.realPlatform = os_arch;
     result.javaVersion = java_version;
     result.javaVendor = java_vendor;
