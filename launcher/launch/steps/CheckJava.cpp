@@ -117,7 +117,7 @@ void CheckJava::checkJavaFinished(JavaCheckResult result)
 
 void CheckJava::printJavaInfo(const QString& version, const QString& architecture, const QString & vendor)
 {
-    emit logLine(QString("Java is version %1, using %2-bit architecture, from %3.\n\n").arg(version, architecture, vendor), MessageLevel::Launcher);
+    emit logLine(QString("Java is version %1, using %2 architecture, from %3.\n\n").arg(version, architecture, vendor), MessageLevel::Launcher);
 }
 
 void CheckJava::printSystemInfo(bool javaIsKnown, bool javaIs64bit)
